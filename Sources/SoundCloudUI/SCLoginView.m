@@ -60,10 +60,6 @@
     return self;
 }
 
-/*
-
-// Commented by Michael Henderson: No Facebook/Separator line for now.
-
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -91,7 +87,6 @@
     drawLine(context, bottomLineStartPoint, bottomLineEndPoint, bottomLineColor, lineWidth);
 
 }
- */
 
 - (void)commonAwake;
 {
@@ -144,11 +139,6 @@
 
 - (void)layoutFbButton
 {
-    
-    /*
-     
-     Commented by Michael Henderson: For now we don't support Facebook login.
-
     NSArray *fbButtonColors = [NSArray arrayWithObjects:
                                 [UIColor colorWithRed:0
                                                 green:0.4
@@ -191,8 +181,6 @@
                               CGRectGetWidth(fbLogo.frame),
                               CGRectGetHeight(fbLogo.frame));
     [self.fbButton addSubview:fbLogo];
-     
-     */
 }
 
 - (void)layoutCredentialsView
@@ -278,38 +266,31 @@
 
     self.webView.frame = self.bounds;
 
+    // Next line changed by Michael Henderson: set the width explicitly to 248.  This
+    // prevents a problem where the previous statement was calculating a width greater
+    // than the size of the screen.
     self.titleLabel.frame = CGRectMake(titleLabelX,
                                        titleLabelY,
-                                       self.bounds.size.width - self.frame.origin.x,
+                                       248, //self.bounds.size.width - self.frame.origin.x,
                                        titleLabelHeight);
 
-    // Following commented by Michael Henderson: Move content up now that Facebook button is no longer shown
     self.credentialsView.frame = CGRectMake(13.0,
-                                            76.0, // 155.0,
+                                            155.0,
                                             self.bounds.size.width - 27.0,
                                             97.0);
-    
-/*
-
-    // Commented by Michael Henderson: No Facebook login button for now
 
     self.fbButton.frame = CGRectMake(self.credentialsView.frame.origin.x,
                                      69.0,
                                      self.credentialsView.frame.size.width,
                                      buttonHeight);
-*/
 
     self.loginButton.frame = CGRectMake(self.credentialsView.frame.origin.x,
                                         self.credentialsView.frame.origin.y + self.credentialsView.frame.size.height + 21.0,
                                         self.credentialsView.frame.size.width,
                                         buttonHeight);
 
-/*
- 
- // Commented by Michael Henderson: No Facebook login button for now
- 
     self.fbButton.titleEdgeInsets = [self updateEdgeInsets];
-*/
+
     self.activityIndicator.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
 
     self.tosLabel.frame = CGRectMake(self.loginButton.frame.origin.x,
@@ -345,15 +326,16 @@
 - (void)removeAllCookies;
 {
 
+ 	// Commented by Michael Henderson: This was making ServerConnection immediately drop all
+    // connections, since we use cookies to maintain sessions. So far, I haven't seen a need
+    // to do this.
+
 /*
-
- // Following commented by Michael Henderson.  Removing all cookies is a bit overbearing -
- // it causes our next ServerConnection call to be unauthorised.
-
     // WORKAROUND: Remove all Cookies to enable the use of facebook user accounts
     for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
     }
+
 */
 }
 
